@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ms Lê Hằng English - IELTS READING MOCK TEST</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700;800&family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pink: #FFD1DC;
+            --deep-purple: #8854C0;
+            --soft-yellow: #FDCB6E;
+            --mint-green: #00C9A7;
+            --wrong-red: #FF4757;
+            --correct-green: #00D26A;
+            --text-dark: #2D3436;
+        }
+
+        * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+
+        body {
+            margin: 0; padding: 0;
+            background: linear-gradient(-45deg, #FFD1DC, #E0C3FC, #FFF0F5, #FBF8CC);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.35; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='10' y='30' font-size='22'%3E📜%3C/text%3E%3Ctext x='50' y='70' font-size='22'%3E⭐%3C/text%3E%3Ctext x='60' y='20' font-size='18'%3E☁️%3C/text%3E%3C/svg%3E");
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 30px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 6px 20px rgba(136, 84, 192, 0.15); z-index: 10;
+            border-bottom: 3px solid var(--primary-pink);
+        }
+
+        .brand-info h1 { margin: 0; font-size: 1.1rem; color: var(--deep-purple); font-family: 'Nunito'; font-weight: 900; }
+        .brand-info span { font-size: 0.8rem; font-weight: 700; color: #666; }
+
+        .timer-container {
+            display: flex; align-items: center; gap: 12px; background: white;
+            padding: 6px 22px; border-radius: 50px; border: 3px solid var(--deep-purple);
+            box-shadow: 0 4px 0 var(--deep-purple);
+        }
+        #timer { font-size: 1.4rem; font-weight: 900; color: var(--deep-purple); min-width: 75px; text-align: center; }
+
+        .btn-gamified {
+            background: white; border: 2px solid var(--text-dark); padding: 8px 18px;
+            border-radius: 15px; font-weight: 800; cursor: pointer;
+            box-shadow: 0 4px 0 var(--text-dark); transition: all 0.1s ease;
+        }
+        .btn-gamified:active { transform: translateY(4px); box-shadow: 0 0px 0 var(--text-dark); }
+        .btn-gamified:hover { transform: scale(1.05); }
+
+        .progress-container { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--deep-purple); }
+        .progress-wrapper { width: 160px; height: 16px; background: #E0E0E0; border-radius: 20px; overflow: hidden; border: 2px solid var(--deep-purple); }
+        #progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--mint-green), #2ECC71); transition: width 0.4s ease; }
+
+        main { display: flex; flex: 1; overflow: hidden; z-index: 1; position: relative; }
+        .split-pane { width: 50%; overflow-y: auto; padding: 25px 35px; scroll-behavior: smooth; }
+        .passage-side { background: rgba(255, 255, 255, 0.9); border-right: 4px dashed var(--primary-pink); }
+        .exercise-side { background: rgba(255, 255, 255, 0.75); }
+
+        .passage-title { color: var(--deep-purple); font-family: 'Nunito'; font-weight: 900; font-size: 1.8rem; margin-bottom: 5px; }
+        .passage-subtitle { font-style: italic; color: #555; margin-bottom: 25px; font-size: 1.1rem; font-weight: 600; }
+        .paragraph-block { margin-bottom: 35px; background: white; padding: 20px; border-radius: 18px; border: 2px solid #E2E8F0; box-shadow: 0 4px 0 #E2E8F0; position: relative; }
+        .paragraph-tag { position: absolute; top: -12px; left: 15px; background: var(--deep-purple); color: white; padding: 2px 10px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; }
+        .paragraph-text { line-height: 1.8; font-size: 1.1rem; color: var(--text-dark); text-align: justify; }
+        
+        /* Hiệu ứng gạch chân ẩn độc quyền phục vụ nút định vị */
+        ::selection { background: #FFC0CB !important; color: #000; }
+        .user-highlight { background: #FFC0CB !important; border-radius: 3px; }
+        
+        .evidence-mark { border-bottom: 3px dashed transparent; transition: all 0.3s ease; }
+        .evidence-mark.active-evidence { border-bottom: 3px dashed #FF69B4 !important; background-color: #FFF0F5 !important; font-weight: 600; }
+
+        .btn-translate { background: var(--soft-yellow); border: 2px solid #D6A232; padding: 6px 14px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 12px; box-shadow: 0 3px 0 #D6A232; }
+        .btn-translate:active { transform: translateY(3px); box-shadow: 0 0px 0 #D6A232; }
+        .translation-box { display: none; background: #FFFDF3; padding: 15px; border-left: 5px solid var(--soft-yellow); margin-top: 12px; font-style: italic; border-radius: 8px; color: #444; line-height: 1.7; }
+
+        .section-header { background: var(--deep-purple); color: white; padding: 10px 20px; border-radius: 12px; font-family: 'Nunito'; font-weight: 800; margin-top: 30px; margin-bottom: 15px; display: inline-block; }
+        .question-card { background: white; border-radius: 20px; padding: 22px; margin-bottom: 25px; border: 3px solid #E2E8F0; box-shadow: 0 6px 0 #E2E8F0; transition: transform 0.2s; position: relative; }
+        .question-card:hover { transform: translateY(-3px); }
+        .question-text { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin-top: 0; margin-bottom: 15px; line-height: 1.5; }
+
+        select.custom-select { width: 100%; padding: 12px; border-radius: 14px; border: 3px solid var(--deep-purple); font-weight: 700; font-size: 1rem; color: var(--text-dark); cursor: pointer; box-shadow: 0 4px 0 var(--deep-purple); outline: none; background-color: white; }
+        input.gap-fill { border: 3px solid var(--deep-purple); border-radius: 12px; padding: 8px 15px; font-size: 1.05rem; font-weight: 700; width: 190px; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.08); text-align: center; margin: 0 5px; }
+
+        .option-btn.correct, select.custom-select.correct, input.gap-fill.correct { background: #D4EDDA !important; color: #155724 !important; border-color: var(--correct-green) !important; box-shadow: 0 4px 0 #00A854 !important; }
+        .option-btn.wrong, select.custom-select.wrong, input.gap-fill.wrong { background: #F8D7DA !important; color: #721C24 !important; border-color: var(--wrong-red) !important; box-shadow: 0 4px 0 #D63031 !important; animation: shake 0.4s ease; }
+
+        .explanation-block { display: none; margin-top: 20px; padding: 18px; background: #F3EAFE; border-radius: 16px; border: 2px dashed var(--deep-purple); animation: fadeIn 0.4s ease; }
+        .explanation-block h4 { color: var(--deep-purple); margin: 0 0 10px 0; font-family: 'Nunito'; font-weight: 800; display: flex; align-items: center; justify-content: space-between; }
+        .btn-locate { background: var(--deep-purple); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 3px 0 #6C3FB0; }
+
+        .expl-section { margin-bottom: 8px; font-size: 0.95rem; line-height: 1.5; color: #333; }
+        .expl-section strong { color: var(--deep-purple); }
+
+        .glossary-container { margin-top: 40px; background: white; padding: 25px; border-radius: 20px; border: 3px solid var(--primary-pink); box-shadow: 0 6px 0 var(--primary-pink); }
+        .glossary-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .glossary-table th { background: var(--deep-purple); color: white; padding: 14px; font-family: 'Nunito'; font-weight: 800; font-size: 1rem; }
+        .glossary-table td { padding: 12px; border-bottom: 1px solid #E2E8F0; font-size: 0.95rem; font-weight: 600; color: #4A5568; line-height: 1.5; }
+
+        #summary-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+        .modal-content { background: white; padding: 45px; border-radius: 35px; text-align: center; max-width: 520px; width: 90%; border: 4px solid var(--deep-purple); box-shadow: 0 12px 0 var(--deep-purple); }
+        .score-circle { width: 140px; height: 140px; border-radius: 50%; background: var(--primary-pink); display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 25px auto; border: 6px solid var(--deep-purple); }
+        .score-circle .val { font-size: 2.8rem; font-weight: 900; color: var(--deep-purple); }
+
+        @media (max-width: 900px) {
+            main { flex-direction: column; }
+            .split-pane { width: 100%; height: 50%; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand-info">
+        <span>Giáo viên tạo: Ms Lê Hằng English</span>
+        <h1>IELTS READING MOCK TEST</h1>
+    </div>
+    <div class="progress-container">
+        <span>Tiến độ:</span>
+        <div class="progress-wrapper"><div id="progress-fill"></div></div>
+    </div>
+    <div class="timer-container">
+        <i class="fa-solid fa-stopwatch" style="color: var(--deep-purple); font-size: 1.3rem;"></i>
+        <div id="timer">25:00</div>
+        <button class="btn-gamified" id="btn-timer-toggle" style="background: var(--soft-yellow); border-color: #D6A232; box-shadow: 0 3px 0 #D6A232;">BẮT ĐẦU TÍNH GIỜ LÀM BÀI</button>
+    </div>
+    <button class="btn-gamified" style="background: var(--mint-green); color: white;" onclick="submitExam()">NỘP BÀI 🎉</button>
+</header>
+
+<main>
+    <div class="split-pane passage-side">
+        <div class="passage-title">THE HISTORY OF CELTIC LANGUAGE</div>
+        <div class="passage-subtitle">Uncovering prehistoric linguistic roots through computational and genetic methods</div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph A</div>
+            <div class="paragraph-text">
+                In November 1897, in a field near the village of Coligny in eastern France, a local inhabitant unearthed two strange objects. One was <span id="ev-15" class="evidence-mark">an imposing statue of Mars, the Roman god of war.</span> The other was an ancient bronze tablet, 1.5 metres wide and 1 metre high. It bore numerals in Roman but the words were in <span id="ev-23" class="evidence-mark">Gaulish</span>, a version of the Celtic language spoken by the inhabitants of France before the Roman conquest in the first century BC. The tablet turned out to be one of the most important sources of words from this extinct language.
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-A')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-A" class="translation-box">
+                Vào tháng 11 năm 1897, tại một cánh đồng gần làng Coligny ở miền đông nước Pháp, một người dân địa phương đã khai quật được hai vật thể kỳ lạ. Một cái là bức tượng uy nghi của thần Mars, vị thần chiến tranh của La Mã. Cái còn lại là một tấm bảng đồng cổ, rộng 1.5 mét và cao 1 mét. Nó mang các chữ số La Mã nhưng các từ lại bằng tiếng Gaulish, một phiên bản của ngôn ngữ Celtic được nói bởi cư dân Pháp trước cuộc chinh phục của La Mã vào thế kỷ thứ nhất trước Công nguyên. Tấm bảng hóa ra lại là một trong những nguồn từ ngữ quan trọng nhất của ngôn ngữ đã tuyệt chủng này.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph B</div>
+            <div class="paragraph-text">
+                Two researchers, geneticist Dr Peter Forster and linguist Dr Alfred Toth, have now used the calendar and other Celtic inscriptions to reconstruct the history of Celtic and its position in the Indo-European family of languages. <span id="ev-21" class="evidence-mark">They say that Celtic became a language in its own right and entered the British Isles much earlier than supposed.</span> Then in the first century BC, the Romans defeated the Celts, both in France and in Britain, so decisively that <span id="ev-24" class="evidence-mark">Latin</span>, and its successor languages displaced Celtic over much of its former territory. In the British Isles, Celtic speakers survived in two main groups: the Goidelic branch of Celtic, which includes Irish and Scots Gaelic, and the Brythonic branch, formed mainly of Welsh and Breton, <span id="ev-17" class="evidence-mark">a Celtic tongue carried to Brittany in France by emigrants from Cornwall.</span>
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-b')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-b" class="translation-box">
+                Hai nhà nghiên cứu, nhà di truyền học Tiến sĩ Peter Forster và nhà ngôn ngữ học Tiến sĩ Alfred Toth, hiện đã sử dụng lịch và các bản khắc Celtic khác để xây dựng lại lịch sử của tiếng Celtic và vị trí của nó trong ngữ hệ Ấn-Âu. Họ nói rằng tiếng Celtic đã trở thành một ngôn ngữ độc lập và du nhập vào Quần đảo Anh sớm hơn nhiều so với dự đoán. Sau đó, vào thế kỷ thứ nhất trước Công nguyên, người La Mã đã đánh bại người Celts một cách dứt khoát đến mức tiếng Latinh đã thay thế tiếng Celtic trên phần lớn lãnh thổ cũ của nó. Ngôn ngữ Breton được mang đến vùng Brittany ở Pháp bởi những người di cư từ Cornwall.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph C</div>
+            <div class="paragraph-text">
+                <span id="ev-18" class="evidence-mark">Because languages change so fast, historical linguists have little faith in language trees that go back more than a few thousand years.</span> Dr Forster has developed a new dating method for relating a group of languages, basing it on the tree-drawing techniques used to trace the evolutionary relationships among genes. The method will work on just a handful of words, a fortunate circumstance since only some 30 Gaulish words have known counterparts in all the other languages under study. Dr Forster and Dr Toth have used the method to draw up a tree relating the different branches of Celtic to one another and to other Indo-European languages like English, French, Spanish, Latin and Greek. In a published article, they say that soon after the ancestral Indo-European language arrived in Europe over 5,000 years ago, it split into different branches leading to Celtic, Latin, Greek and English. Within Celtic, their tree shows that Gaulish the mainland European version of the language separated from its Goidelic and Brythonic cousins, much as might be expected from the facts of geography.
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-c')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-c" class="translation-box">
+                Bởi vì các ngôn ngữ thay đổi quá nhanh, các nhà ngôn ngữ học lịch sử có rất ít niềm tin vào các sơ đồ cây ngôn ngữ có niên đại lùi lại hơn vài nghìn năm. Tiến sĩ Forster đã phát triển một phương pháp xác định niên đại mới để liên kết một nhóm ngôn ngữ, dựa trên các kỹ thuật vẽ cây dùng để theo dõi mối quan hệ tiến hóa giữa các gen.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph D</div>
+            <div class="paragraph-text">
+                The researchers' method even dates the points at which their language tree divides, although the dates have a wide range of possibility. They calculate that the Indo-European language initially fragmented in Europe around 8100 BC, plus or minus 1,900 years, and the <span id="ev-25" class="evidence-mark">divergence</span> between the mainland European and British versions of Gaelic took place in 3200 BC, plus or minus 1,500 years. These dates are much earlier than previously estimated. ‘The traditional date of the Indo-European fragmentation has been 4000 BC for some time,’ said linguist Dr Merritt Ruhlen. He said the new method ‘seems pretty reasonable’ and should be useful in tracing back the earlier history of the Indo-European language.
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-d')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-d" class="translation-box">
+                Phương pháp của các nhà nghiên cứu thậm chí còn xác định được thời điểm mà cây ngôn ngữ của họ phân tách. Họ tính toán rằng sự phân tách (divergence) giữa các phiên bản tiếng Gaelic của đại lục châu Âu và của Anh diễn ra vào năm 3200 TCN. Những ngày này sớm hơn nhiều so với ước tính trước đây.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph E</div>
+            <div class="paragraph-text">
+                <span id="ev-14" class="evidence-mark">Specialists have long debated which country was the homeland of the Indo-Europeans and whether their language was spread by conquest or because its speakers were the first agriculturists whose methods and tongue were adopted by other populations.</span> The second theory, that it was spread by agriculture, has been advocated by archaeologist <span id="ev-22" class="evidence-mark">Dr Colin Renfrew.</span> Dr Forster, who works with Dr Renfrew, said in an interview that the suggested date 8100 BC for the arrival of Indo-European in Europe does seem to vindicate Renfrew's archaeological idea that the Indo-European languages were spread by farmers. Agriculture started to arrive in Europe from the Near East around 6000 BC, which is earlier than the traditional date proposed by linguists for the spread of Indo-European. This writing would fit with the lower end of Dr Forster's range of dates.
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-e')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-e" class="translation-box">
+                Các chuyên gia từ lâu đã tranh luận về việc quốc gia nào là quê hương của người Ấn-Âu và liệu ngôn ngữ của họ được truyền bá qua các cuộc chinh phạt hay vì những người nói ngôn ngữ này là những người làm nông nghiệp đầu tiên có phương pháp và ngôn ngữ được các quần thể khác áp dụng. Lý thuyết thứ hai, cho rằng nó được truyền bá bằng nông nghiệp, đã được ủng hộ bởi nhà khảo cổ học Tiến sĩ Colin Renfrew.
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph F</div>
+            <div class="paragraph-text">
+                Dr Forster said that his estimated date of 3200 BC for the arrival of Celtic speakers in the British Isles is also much earlier than the usual date, 600 BC, posited on the basis of archaeological evidence. Dr Forster and Dr Toth said their method of evaluating groups of languages against each other was similar to historical linguists, <span id="ev-19" class="evidence-mark">many of whom restrict their research to how words in only one single language have changed over time.</span> Asked what linguists thought of his approach he said: ‘To be honest, they don't understand it, most of them. They don't even know what I'm talking about.’ The method used by Dr Forster and Dr Toth has two parts. One is to draw a tree on the basis of carefully chosen words; the second is to date the splits in the tree by calibrating them with known historical events. This is similar to the way geneticists date their evolutionary trees by tying one or more branch points to known dates from the fossil record.
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-f')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-f" class="translation-box">
+                Tiến sĩ Forster và Tiến sĩ Toth cho biết phương pháp đánh giá các nhóm ngôn ngữ với nhau của họ tương đương các nhà ngôn ngữ học lịch sử, nhiều người trong số họ chỉ hạn chế nghiên cứu vào việc các từ trong chỉ một ngôn ngữ duy nhất thay đổi như thế nào theo thời gian (phạm vi quá hẹp).
+            </div>
+        </div>
+
+        <div class="paragraph-block">
+            <div class="paragraph-tag">Paragraph G</div>
+            <div class="paragraph-text">
+                Dr April McMahon, a linguist at the University of Sheffield in England, said that Dr Forster's method ‘seems to me to be a good start’, and that it was reasonable to base a language family tree on just a handful of well-chosen words. She had less confidence in the dating method, she said, because <span id="ev-20" class="evidence-mark">language changes in an irregular way based on social factors like the size of the speaker's group</span> and its degree of contact with others. <span id="ev-26" class="evidence-mark">irregular</span>
+            </div>
+            <button class="btn-translate" onclick="toggleTranslation('trans-g')">BẢN DỊCH ĐẦY ĐỦ 🌟</button>
+            <div id="trans-g" class="translation-box">
+                Tiến sĩ April McMahon, một nhà ngôn ngữ học tại Đại học Sheffield ở Anh, cho biết cô ít tin tưởng vào phương pháp xác định niên đại hơn, vì ngôn ngữ thay đổi theo một cách không đều đặn (irregular) dựa trên các yếu tố xã hội như quy mô nhóm người nói và mức độ tiếp xúc của nhóm với những nhóm khác.
+            </div>
+        </div>
+
+        <div class="glossary-container">
+            <h3 style="color: var(--deep-purple); font-family: 'Nunito'; margin-top:0;"><i class="fa-solid fa-book-open"></i> 📚 GLOSSARY & ACADEMIC WORDS</h3>
+            <table class="glossary-table">
+                <thead>
+                    <tr><th>Từ vựng (B2-C2)</th><th>Nghĩa & Từ đồng nghĩa trong ngữ cảnh bài đọc</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Unearthed</strong> (v)</td><td>Khai quật, phát hiện ra dưới lòng đất (~ discovered)</td></tr>
+                    <tr><td><strong>Extinct</strong> (adj)</td><td>Đã tuyệt chủng, biến mất hoàn toàn</td></tr>
+                    <tr><td><strong>Displaced</strong> (v)</td><td>Thay thế, chiếm chỗ, đánh bật vị trí cũ</td></tr>
+                    <tr><td><strong>Counterparts</strong> (n)</td><td>Từ tương đương, bản đối chiếu tương ứng</td></tr>
+                    <tr><td><strong>Divergence</strong> (n)</td><td>Sự phân tách, sự rẽ nhánh phát triển khác nhau</td></tr>
+                    <tr><td><strong>Vindicate</strong> (v)</td><td>Chứng minh là đúng, minh oan, bào chữa thành công</td></tr>
+                    <tr><td><strong>Calibrating</strong> (v)</td><td>Định lượng, hiệu chuẩn, đo đạc chính xác</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="split-pane exercise-side">
+        
+        <div class="section-header">Questions 14–18: Paragraph Matching</div>
+        <p style="font-weight: bold; font-style: italic; color: #555;">Which paragraph contains the following information? Choose letters A-G.</p>
+        
+        <div class="question-card" data-qtype="select" data-ans="E">
+            <div class="question-text">14. a difference of opinion about where a group of languages originated</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn đoạn văn cuộn A-G --</option>
+                <option value="A">Paragraph A</option><option value="B">Paragraph B</option><option value="C">Paragraph C</option>
+                <option value="D">Paragraph D</option><option value="E">Paragraph E</option><option value="F">Paragraph F</option>
+                <option value="G">Paragraph G</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-14')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> E</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "Specialists have long debated which country was the homeland of the Indo-Europeans and whether their language was spread by conquest or because..."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Các chuyên gia từ lâu đã tranh luận xem quốc gia nào là quê hương của ngữ hệ Ấn-Âu (sự khác biệt ý kiến về nơi khởi nguồn).</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> difference of opinion = debated | originated = homeland</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="A">
+            <div class="question-text">15. a reference to a mythological figure</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn đoạn văn cuộn A-G --</option>
+                <option value="A">Paragraph A</option><option value="B">Paragraph B</option><option value="C">Paragraph C</option>
+                <option value="D">Paragraph D</option><option value="E">Paragraph E</option><option value="F">Paragraph F</option>
+                <option value="G">Paragraph G</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-15')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> A</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "One was an imposing statue of Mars, the Roman god of war."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Một trong hai vật thể là bức tượng uy nghi của thần Mars, vị thần chiến tranh La Mã (nhân vật thần thoại).</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> mythological figure = Mars, the Roman god of war</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="G">
+            <div class="question-text">16. an expression of one person's doubt about a particular method of analysing scientific data</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn đoạn văn cuộn A-G --</option>
+                <option value="A">Paragraph A</option><option value="B">Paragraph B</option><option value="C">Paragraph C</option>
+                <option value="D">Paragraph D</option><option value="E">Paragraph E</option><option value="F">Paragraph F</option>
+                <option value="G">Paragraph G</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-20')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> G</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "She [Dr April McMahon] had less confidence in the dating method, she said, because language changes in an irregular way..."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Cô ấy (Tiến sĩ April McMahon) bày tỏ việc ít tin tưởng hơn (hoài nghi) vào phương pháp tính niên đại này.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> expression of doubt = less confidence | method of analysing scientific data = dating method</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="B">
+            <div class="question-text">17. an explanation of how one particular Celtic language spread due to the movement of people</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn đoạn văn cuộn A-G --</option>
+                <option value="A">Paragraph A</option><option value="B">Paragraph B</option><option value="C">Paragraph C</option>
+                <option value="D">Paragraph D</option><option value="E">Paragraph E</option><option value="F">Paragraph F</option>
+                <option value="G">Paragraph G</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-17')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> B</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "...and Breton, a Celtic tongue carried to Brittany in France by emigrants from Cornwall."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> ...và tiếng Breton, một ngôn ngữ Celtic được mang tới vùng Brittany tại Pháp bởi những người di cư (emigrants) từ vùng Cornwall.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> spread = carried to | movement of people = emigrants</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="C">
+            <div class="question-text">18. the reason why some language experts distrust language trees</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn đoạn văn cuộn A-G --</option>
+                <option value="A">Paragraph A</option><option value="B">Paragraph B</option><option value="C">Paragraph C</option>
+                <option value="D">Paragraph D</option><option value="E">Paragraph E</option><option value="F">Paragraph F</option>
+                <option value="G">Paragraph G</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-18')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> C</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "Because languages change so fast, historical linguists have little faith in language trees that go back more than a few thousand years."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Bởi vì ngôn ngữ thay đổi quá nhanh (lý do), các nhà ngôn ngữ học lịch sử có rất ít niềm tin (distrust) vào sơ đồ cây ngôn ngữ cổ đại.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> distrust = have little faith in | language experts = historical linguists</div>
+            </div>
+        </div>
+
+
+        <div class="section-header">Questions 19–22: Matching Researchers</div>
+        <p style="font-weight: bold; font-style: italic; color: #555;">Match each statement with the correct researcher, A, B, C or D.</p>
+        <div style="background: #FFF; padding: 12px; border-radius: 12px; margin-bottom: 15px; border: 2px solid var(--primary-pink); font-size:0.95rem;">
+            <strong>List of Researchers:</strong><br>
+            A. Dr Peter Forster & Dr Alfred Toth &nbsp;|&nbsp; B. Dr Merritt Ruhlen<br>
+            C. Dr Colin Renfrew &nbsp;|&nbsp; D. Dr April McMahon
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="A">
+            <div class="question-text">19. An approach commonly used in language research has too narrow a focus.</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn nhà nghiên cứu --</option>
+                <option value="A">A. Dr Peter Forster & Dr Alfred Toth</option>
+                <option value="B">B. Dr Merritt Ruhlen</option>
+                <option value="C">C. Dr Colin Renfrew</option>
+                <option value="D">D. Dr April McMahon</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-19')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> A</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "Dr Forster and Dr Toth said their method... was similar to historical linguists, many of whom restrict their research to how words in only one single language have changed over time."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Tiến sĩ Forster và Tiến sĩ Toth nhận xét các nhà ngôn ngữ học khác thường bị giới hạn nghiên cứu (restrict) chỉ vào một ngôn ngữ duy nhất (tập trung quá hẹp).</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> too narrow a focus = restrict their research to... only one single language</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="D">
+            <div class="question-text">20. The number of people who use a language has an effect on the modifications the language undergoes.</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn nhà nghiên cứu --</option>
+                <option value="A">A. Dr Peter Forster & Dr Alfred Toth</option>
+                <option value="B">B. Dr Merritt Ruhlen</option>
+                <option value="C">C. Dr Colin Renfrew</option>
+                <option value="D">D. Dr April McMahon</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-20')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> D</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "...Dr April McMahon... said... language changes in an irregular way based on social factors like the size of the speaker's group..."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Tiến sĩ April McMahon phát biểu rằng ngôn ngữ biến đổi dựa vào các yếu tố xã hội như quy mô số lượng của nhóm người nói (size of the speaker's group).</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> number of people who use a language = size of the speaker's group | modifications = changes / undergoes</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="A">
+            <div class="question-text">21. The Celtic language has been a distinct language for longer than experts previously thought.</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn nhà nghiên cứu --</option>
+                <option value="A">A. Dr Peter Forster & Dr Alfred Toth</option>
+                <option value="B">B. Dr Merritt Ruhlen</option>
+                <option value="C">C. Dr Colin Renfrew</option>
+                <option value="D">D. Dr April McMahon</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-21')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> A</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "They [Forster & Toth] say that Celtic became a language in its own right and entered the British Isles much earlier than supposed."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Forster và Toth khẳng định tiếng Celtic tự hình thành độc lập và tiến vào quần đảo Anh sớm hơn nhiều so với giả định cũ.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> distinct language = language in its own right | for longer / earlier = much earlier than supposed</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="select" data-ans="C">
+            <div class="question-text">22. The use of one family of languages may have become more extensive due to farming practices.</div>
+            <select class="custom-select" onchange="checkSelectQuestion(this)">
+                <option value="">-- Click chọn nhà nghiên cứu --</option>
+                <option value="A">A. Dr Peter Forster & Dr Alfred Toth</option>
+                <option value="B">B. Dr Merritt Ruhlen</option>
+                <option value="C">C. Dr Colin Renfrew</option>
+                <option value="D">D. Dr April McMahon</option>
+            </select>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-22')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> C</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "The second theory, that it was spread by agriculture, has been advocated by archaeologist Dr Colin Renfrew."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Giả thuyết thứ hai cho rằng ngữ hệ lan rộng ra nhờ nông nghiệp được ủng hộ bởi Tiến sĩ khảo cổ Colin Renfrew.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> become more extensive / spread = spread | farming practices = agriculture / farmers</div>
+            </div>
+        </div>
+
+
+        <div class="section-header">Questions 23–26: Summary Completion</div>
+        <p style="font-weight: bold; font-style: italic; color: #555;">Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.</p>
+
+        <div class="question-card" data-qtype="gap" data-ans="Gaulish" data-id="gap-23">
+            <div class="question-text">23. The script on the bronze tablet discovered in Coligny in France was written in a form of Celtic called <input type="text" class="gap-fill" id="gap-23" placeholder="Điền 1 từ..."></div>
+            <button class="btn-gamified" style="background: var(--soft-yellow);" onclick="checkSingleGap('gap-23')">Check</button>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-23')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> Gaulish</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "...but the words were in Gaulish, a version of the Celtic language spoken by the inhabitants..."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> ...nhưng các chữ viết lại bằng tiếng Gaulish, một phiên bản cổ của ngôn ngữ Celtic.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> form of Celtic = version of the Celtic language</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="gap" data-ans="Latin" data-id="gap-24">
+            <div class="question-text">24. After the success of the Roman Empire in conquering many parts of Europe, <input type="text" class="gap-fill" id="gap-24" placeholder="Điền 1 từ..."> and its related languages became the predominant languages.</div>
+            <button class="btn-gamified" style="background: var(--soft-yellow);" onclick="checkSingleGap('gap-24')">Check</button>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-24')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> Latin</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "...the Romans defeated the Celts... so decisively that their language, Latin, and its successor languages displaced Celtic..."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> Người La Mã đánh bại người Celts triệt để đến mức ngôn ngữ của họ là tiếng Latin (Latin) và các ngôn ngữ kế tục đã thay thế hoàn toàn tiếng Celtic.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> related languages = successor languages | predominant / displaced = displaced over much of territory</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="gap" data-ans="divergence" data-id="gap-25">
+            <div class="question-text">25. <input type="text" class="gap-fill" id="gap-25" placeholder="Điền 1 từ..."> is known to have occurred among the various versions of the Gaelic language around 3200 BC.</div>
+            <button class="btn-gamified" style="background: var(--soft-yellow);" onclick="checkSingleGap('gap-25')">Check</button>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-25')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> divergence</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "...and the divergence between the mainland European and British versions of Gaelic took place in 3200 BC..."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> ...và sự phân tách, rẽ nhánh (divergence) giữa các phiên bản tiếng Gaelic đại lục và Anh đã diễn ra vào năm 3200 TCN.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> occurred / took place = took place | various versions = mainland European and British versions</div>
+            </div>
+        </div>
+
+        <div class="question-card" data-qtype="gap" data-ans="irregular" data-id="gap-26">
+            <div class="question-text">26. For social reasons, developments in languages are <input type="text" class="gap-fill" id="gap-26" placeholder="Điền 1 từ..."></div>
+            <button class="btn-gamified" style="background: var(--soft-yellow);" onclick="checkSingleGap('gap-26')">Check</button>
+            <div class="explanation-block">
+                <h4>GIẢI THÍCH CHI TIẾT <button class="btn-locate" onclick="scrollLeftTo('ev-26')"><i class="fa-solid fa-mouse-pointer"></i> Định vị dẫn chứng</button></h4>
+                <div class="expl-section"><strong>1. ĐÁP ÁN:</strong> irregular</div>
+                <div class="expl-section"><strong>2. ĐOẠN CHỨA ĐÁP ÁN:</strong> "...because language changes in an irregular way based on social factors..."</div>
+                <div class="expl-section"><strong>3. DỊCH NGHĨA:</strong> ...bởi vì ngôn ngữ thay đổi theo một cách không đều đặn, thất thường (irregular) dựa trên các yếu tố xã hội.</div>
+                <div class="expl-section"><strong>4. CỤM TỪ ĐỒNG NGHĨA:</strong> developments / changes = changes | social reasons = social factors</div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div id="summary-modal">
+    <div class="modal-content">
+        <h2>HOÀN THÀNH BÀI THI 🎉</h2>
+        <div class="score-circle"><span class="val" id="final-score">0/13</span></div>
+        <p id="result-text" style="font-weight:700; color:var(--text-dark); line-height:1.6;"></p>
+        <button class="btn-gamified" style="background:var(--deep-purple); color:white;" onclick="location.reload()">LÀM LẠI CÙNG MS LÊ HẰNG 🌟</button>
+    </div>
+</div>
+
+<script>
+    // WEB AUDIO API
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playAudio(type) {
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode); gainNode.connect(audioCtx.destination);
+        if (type === 'success') {
+            osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.08);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.25);
+        } else {
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.25);
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        }
+    }
+
+    // TIMER SYSTEM
+    let timeRemaining = 25 * 60;
+    let timerInterval = null;
+    document.getElementById('btn-timer-toggle').onclick = function() {
+        if (timerInterval) {
+            clearInterval(timerInterval); timerInterval = null;
+            this.innerText = 'TIẾP TỤC LÀM BÀI';
+        } else {
+            this.innerText = 'TẠM DỪNG ⏸️';
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                let mins = Math.floor(timeRemaining / 60);
+                let secs = timeRemaining % 60;
+                document.getElementById('timer').innerText = `${mins}:${secs < 10 ? '0' + secs : secs}`;
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Đã hết giờ làm bài! Bạn vẫn có thể tiếp tục làm nhưng nhớ cân đối thời gian thực tế phòng thi nha.");
+                }
+            }, 1000);
+        }
+    };
+
+    // PROGRESS TRACKING
+    let correctCount = 0;
+    const totalQuestions = 13;
+    const answeredSet = new Set();
+
+    function updateProgress() {
+        let percent = (answeredSet.size / totalQuestions) * 100;
+        document.getElementById('progress-fill').style.width = percent + '%';
+    }
+
+    // SCROLL & HIGHLIGHT ON DEMAND (CHỈ GẠCH CHÂN KHI BẤM NÚT ĐỊNH VỊ)
+    function scrollLeftTo(elementId) {
+        const el = document.getElementById(elementId);
+        if (el) {
+            document.querySelectorAll('.evidence-mark').forEach(item => item.classList.remove('active-evidence'));
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('active-evidence');
+            setTimeout(() => { el.classList.remove('active-evidence'); }, 3000);
+        }
+    }
+
+    function toggleTranslation(id) {
+        const el = document.getElementById(id);
+        el.style.display = el.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // INTERACTIVE CONTROLS
+    function checkSelectQuestion(selectEl) {
+        const card = selectEl.closest('.question-card');
+        const correctAns = card.dataset.ans;
+        if (!selectEl.value || selectEl.disabled) return;
+        selectEl.disabled = true;
+
+        if (selectEl.value === correctAns) {
+            selectEl.classList.add('correct');
+            playAudio('success');
+            confetti({ particleCount: 40 });
+            correctCount++;
+        } else {
+            selectEl.classList.add('wrong');
+            playAudio('fail');
+            selectEl.value = correctAns;
+            selectEl.classList.add('correct');
+        }
+        card.querySelector('.explanation-block').style.display = 'block';
+        answeredSet.add(card.querySelector('.question-text').innerText);
+        updateProgress();
+    }
+
+    function checkSingleGap(id) {
+        const inputEl = document.getElementById(id);
+        const card = inputEl.closest('.question-card');
+        const correctAns = card.dataset.ans.toLowerCase();
+        const userAns = inputEl.value.trim().toLowerCase();
+
+        if(!userAns || inputEl.disabled) return;
+        inputEl.disabled = true;
+
+        if(userAns === correctAns) {
+            inputEl.classList.add('correct');
+            playAudio('success');
+            confetti({ particleCount: 30 });
+            correctCount++;
+        } else {
+            inputEl.classList.add('wrong');
+            playAudio('fail');
+            inputEl.value = card.dataset.ans;
+            inputEl.classList.add('correct');
+        }
+        card.querySelector('.explanation-block').style.display = 'block';
+        answeredSet.add(id);
+        updateProgress();
+    }
+
+    // TEXT SELECTION AUTO-HIGHLIGHT
+    document.addEventListener('mouseup', function() {
+        let sel = window.getSelection();
+        if (sel.rangeCount > 0 && sel.toString().trim().length > 0) {
+            let node = document.createElement("span");
+            node.className = "user-highlight";
+            let range = sel.getRangeAt(0).cloneRange();
+            try { range.surroundContents(node); sel.removeAllRanges(); } catch(e){}
+        }
+    });
+
+    function submitExam() {
+        if(timerInterval) clearInterval(timerInterval);
+        document.getElementById('summary-modal').style.display = 'flex';
+        document.getElementById('final-score').innerText = `${correctCount}/${totalQuestions}`;
+        let txt = document.getElementById('result-text');
+        if(correctCount >= 9) {
+            txt.innerText = "Tuyệt vời ông mặt trời! Kỹ năng xử lý bài toán Ngôn ngữ học siêu đẳng cấp, xứng danh học trò xuất chúng của cô Hằng!";
+        } else {
+            txt.innerText = "Làm tốt lắm con ơi! Hãy nhấn lại nút 'Định vị dẫn chứng' ở những câu làm sai để ghi nhớ từ vựng và cấu trúc song hành nhé!";
+        }
+        confetti({ particleCount: 150, spread: 80 });
+    }
+</script>
+</body>
+</html>
